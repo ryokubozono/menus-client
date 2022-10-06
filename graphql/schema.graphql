@@ -1,0 +1,29 @@
+# articleサービスとやり取りするArticleの型定義
+type Test {
+    uid: String!
+    text: String!
+}
+
+# CREATEのためのinputを定義
+input CreateInput {
+    text: String!
+}
+
+# UPDATEのためのinputを定義
+input UpdateInput {
+    uid: String!
+    text: String!
+}
+
+# mutationの定義(CREATE, UPDATE, DELETEを行う)
+type Mutation {
+    createTest(input: CreateInput!): Test!
+    updateTest(input: UpdateInput!): Test!
+    deleteTest(input: String!): String!
+}
+
+# queryの定義(article → READ, articles → 全取得)
+type Query {
+    test(input: String!): Test!
+    tests: [Test!]!
+}

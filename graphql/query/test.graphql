@@ -1,0 +1,7 @@
+query findTest($uid: String!) {
+  test(input: $uid)
+  {
+    uid
+    text
+  }
+}

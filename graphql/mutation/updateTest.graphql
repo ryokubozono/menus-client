@@ -1,0 +1,8 @@
+mutation updateTest($uid: String!, $text: String!) {
+  updateTest(input: {
+    uid: $uid,
+    text: $text}) {
+      uid
+      text
+  }
+}

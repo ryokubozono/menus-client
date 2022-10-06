@@ -1,0 +1,7 @@
+mutation createTest($text: String!) {
+  createTest(input: {
+    text: $text}) {
+      uid
+      text
+    }
+}
