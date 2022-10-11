@@ -1,0 +1,24 @@
+mutation updateShop(
+  $uid: String!
+  $name: String!
+  $zip: String!
+  $address: String!
+  $tel: String!
+  $note: String!
+) {
+  updateShop(input: {
+    uid: $uid
+    name: $name
+    zip: $zip
+    address: $address
+    tel: $tel
+    note: $note
+  }) {
+    uid
+    name
+    zip
+    address
+    tel
+    note
+  }
+}

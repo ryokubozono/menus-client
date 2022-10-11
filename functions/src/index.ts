@@ -14,9 +14,10 @@ const server = new ApolloServer({
 });
 
 server
-    .start()
-    .then(() => {
-      server.applyMiddleware({app, path: "/"});
-    })
+  .start()
+  .then(() => {
+    server.applyMiddleware({app, path: "/"});
+  })
 
+// graphqlが公開される
 exports.graphql = functions.https.onRequest(app);

@@ -19,11 +19,27 @@ export type CreateInput = {
   text: Scalars['String'];
 };
 
+export type CreateShopInput = {
+  address: Scalars['String'];
+  name: Scalars['String'];
+  note: Scalars['String'];
+  tel: Scalars['String'];
+  zip: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createShop: Shop;
   createTest: Test;
+  deleteShop: Scalars['String'];
   deleteTest: Scalars['String'];
+  updateShop: Shop;
   updateTest: Test;
+};
+
+
+export type MutationCreateShopArgs = {
+  input: CreateShopInput;
 };
 
 
@@ -32,8 +48,18 @@ export type MutationCreateTestArgs = {
 };
 
 
+export type MutationDeleteShopArgs = {
+  input: Scalars['String'];
+};
+
+
 export type MutationDeleteTestArgs = {
   input: Scalars['String'];
+};
+
+
+export type MutationUpdateShopArgs = {
+  input: UpdateShopInput;
 };
 
 
@@ -43,13 +69,30 @@ export type MutationUpdateTestArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  shop: Shop;
+  shops: Array<Shop>;
   test: Test;
   tests: Array<Test>;
 };
 
 
+export type QueryShopArgs = {
+  input: Scalars['String'];
+};
+
+
 export type QueryTestArgs = {
   input: Scalars['String'];
+};
+
+export type Shop = {
+  __typename?: 'Shop';
+  address: Scalars['String'];
+  name: Scalars['String'];
+  note: Scalars['String'];
+  tel: Scalars['String'];
+  uid: Scalars['String'];
+  zip: Scalars['String'];
 };
 
 export type Test = {
@@ -63,12 +106,39 @@ export type UpdateInput = {
   uid: Scalars['String'];
 };
 
+export type UpdateShopInput = {
+  address: Scalars['String'];
+  name: Scalars['String'];
+  note: Scalars['String'];
+  tel: Scalars['String'];
+  uid: Scalars['String'];
+  zip: Scalars['String'];
+};
+
+export type CreateShopMutationVariables = Exact<{
+  name: Scalars['String'];
+  zip: Scalars['String'];
+  address: Scalars['String'];
+  tel: Scalars['String'];
+  note: Scalars['String'];
+}>;
+
+
+export type CreateShopMutation = { __typename?: 'Mutation', createShop: { __typename?: 'Shop', name: string, zip: string, address: string, tel: string, note: string } };
+
 export type CreateTestMutationVariables = Exact<{
   text: Scalars['String'];
 }>;
 
 
 export type CreateTestMutation = { __typename?: 'Mutation', createTest: { __typename?: 'Test', uid: string, text: string } };
+
+export type DeleteShopMutationVariables = Exact<{
+  uid: Scalars['String'];
+}>;
+
+
+export type DeleteShopMutation = { __typename?: 'Mutation', deleteShop: string };
 
 export type DeleteTestMutationVariables = Exact<{
   uid: Scalars['String'];
@@ -77,6 +147,18 @@ export type DeleteTestMutationVariables = Exact<{
 
 export type DeleteTestMutation = { __typename?: 'Mutation', deleteTest: string };
 
+export type UpdateShopMutationVariables = Exact<{
+  uid: Scalars['String'];
+  name: Scalars['String'];
+  zip: Scalars['String'];
+  address: Scalars['String'];
+  tel: Scalars['String'];
+  note: Scalars['String'];
+}>;
+
+
+export type UpdateShopMutation = { __typename?: 'Mutation', updateShop: { __typename?: 'Shop', uid: string, name: string, zip: string, address: string, tel: string, note: string } };
+
 export type UpdateTestMutationVariables = Exact<{
   uid: Scalars['String'];
   text: Scalars['String'];
@@ -84,6 +166,18 @@ export type UpdateTestMutationVariables = Exact<{
 
 
 export type UpdateTestMutation = { __typename?: 'Mutation', updateTest: { __typename?: 'Test', uid: string, text: string } };
+
+export type FindShopQueryVariables = Exact<{
+  uid: Scalars['String'];
+}>;
+
+
+export type FindShopQuery = { __typename?: 'Query', shop: { __typename?: 'Shop', uid: string, name: string, zip: string, address: string, tel: string, note: string } };
+
+export type ListShopsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListShopsQuery = { __typename?: 'Query', shops: Array<{ __typename?: 'Shop', uid: string, name: string, zip: string, address: string, tel: string, note: string }> };
 
 export type FindTestQueryVariables = Exact<{
   uid: Scalars['String'];
@@ -98,6 +192,49 @@ export type ListTestsQueryVariables = Exact<{ [key: string]: never; }>;
 export type ListTestsQuery = { __typename?: 'Query', tests: Array<{ __typename?: 'Test', uid: string, text: string }> };
 
 
+export const CreateShopDocument = gql`
+    mutation createShop($name: String!, $zip: String!, $address: String!, $tel: String!, $note: String!) {
+  createShop(
+    input: {name: $name, zip: $zip, address: $address, tel: $tel, note: $note}
+  ) {
+    name
+    zip
+    address
+    tel
+    note
+  }
+}
+    `;
+export type CreateShopMutationFn = Apollo.MutationFunction<CreateShopMutation, CreateShopMutationVariables>;
+
+/**
+ * __useCreateShopMutation__
+ *
+ * To run a mutation, you first call `useCreateShopMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateShopMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createShopMutation, { data, loading, error }] = useCreateShopMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      zip: // value for 'zip'
+ *      address: // value for 'address'
+ *      tel: // value for 'tel'
+ *      note: // value for 'note'
+ *   },
+ * });
+ */
+export function useCreateShopMutation(baseOptions?: Apollo.MutationHookOptions<CreateShopMutation, CreateShopMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateShopMutation, CreateShopMutationVariables>(CreateShopDocument, options);
+      }
+export type CreateShopMutationHookResult = ReturnType<typeof useCreateShopMutation>;
+export type CreateShopMutationResult = Apollo.MutationResult<CreateShopMutation>;
+export type CreateShopMutationOptions = Apollo.BaseMutationOptions<CreateShopMutation, CreateShopMutationVariables>;
 export const CreateTestDocument = gql`
     mutation createTest($text: String!) {
   createTest(input: {text: $text}) {
@@ -132,6 +269,37 @@ export function useCreateTestMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateTestMutationHookResult = ReturnType<typeof useCreateTestMutation>;
 export type CreateTestMutationResult = Apollo.MutationResult<CreateTestMutation>;
 export type CreateTestMutationOptions = Apollo.BaseMutationOptions<CreateTestMutation, CreateTestMutationVariables>;
+export const DeleteShopDocument = gql`
+    mutation deleteShop($uid: String!) {
+  deleteShop(input: $uid)
+}
+    `;
+export type DeleteShopMutationFn = Apollo.MutationFunction<DeleteShopMutation, DeleteShopMutationVariables>;
+
+/**
+ * __useDeleteShopMutation__
+ *
+ * To run a mutation, you first call `useDeleteShopMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteShopMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteShopMutation, { data, loading, error }] = useDeleteShopMutation({
+ *   variables: {
+ *      uid: // value for 'uid'
+ *   },
+ * });
+ */
+export function useDeleteShopMutation(baseOptions?: Apollo.MutationHookOptions<DeleteShopMutation, DeleteShopMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteShopMutation, DeleteShopMutationVariables>(DeleteShopDocument, options);
+      }
+export type DeleteShopMutationHookResult = ReturnType<typeof useDeleteShopMutation>;
+export type DeleteShopMutationResult = Apollo.MutationResult<DeleteShopMutation>;
+export type DeleteShopMutationOptions = Apollo.BaseMutationOptions<DeleteShopMutation, DeleteShopMutationVariables>;
 export const DeleteTestDocument = gql`
     mutation deleteTest($uid: String!) {
   deleteTest(input: $uid)
@@ -163,6 +331,51 @@ export function useDeleteTestMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteTestMutationHookResult = ReturnType<typeof useDeleteTestMutation>;
 export type DeleteTestMutationResult = Apollo.MutationResult<DeleteTestMutation>;
 export type DeleteTestMutationOptions = Apollo.BaseMutationOptions<DeleteTestMutation, DeleteTestMutationVariables>;
+export const UpdateShopDocument = gql`
+    mutation updateShop($uid: String!, $name: String!, $zip: String!, $address: String!, $tel: String!, $note: String!) {
+  updateShop(
+    input: {uid: $uid, name: $name, zip: $zip, address: $address, tel: $tel, note: $note}
+  ) {
+    uid
+    name
+    zip
+    address
+    tel
+    note
+  }
+}
+    `;
+export type UpdateShopMutationFn = Apollo.MutationFunction<UpdateShopMutation, UpdateShopMutationVariables>;
+
+/**
+ * __useUpdateShopMutation__
+ *
+ * To run a mutation, you first call `useUpdateShopMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateShopMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateShopMutation, { data, loading, error }] = useUpdateShopMutation({
+ *   variables: {
+ *      uid: // value for 'uid'
+ *      name: // value for 'name'
+ *      zip: // value for 'zip'
+ *      address: // value for 'address'
+ *      tel: // value for 'tel'
+ *      note: // value for 'note'
+ *   },
+ * });
+ */
+export function useUpdateShopMutation(baseOptions?: Apollo.MutationHookOptions<UpdateShopMutation, UpdateShopMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateShopMutation, UpdateShopMutationVariables>(UpdateShopDocument, options);
+      }
+export type UpdateShopMutationHookResult = ReturnType<typeof useUpdateShopMutation>;
+export type UpdateShopMutationResult = Apollo.MutationResult<UpdateShopMutation>;
+export type UpdateShopMutationOptions = Apollo.BaseMutationOptions<UpdateShopMutation, UpdateShopMutationVariables>;
 export const UpdateTestDocument = gql`
     mutation updateTest($uid: String!, $text: String!) {
   updateTest(input: {uid: $uid, text: $text}) {
@@ -198,6 +411,85 @@ export function useUpdateTestMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateTestMutationHookResult = ReturnType<typeof useUpdateTestMutation>;
 export type UpdateTestMutationResult = Apollo.MutationResult<UpdateTestMutation>;
 export type UpdateTestMutationOptions = Apollo.BaseMutationOptions<UpdateTestMutation, UpdateTestMutationVariables>;
+export const FindShopDocument = gql`
+    query findShop($uid: String!) {
+  shop(input: $uid) {
+    uid
+    name
+    zip
+    address
+    tel
+    note
+  }
+}
+    `;
+
+/**
+ * __useFindShopQuery__
+ *
+ * To run a query within a React component, call `useFindShopQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindShopQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindShopQuery({
+ *   variables: {
+ *      uid: // value for 'uid'
+ *   },
+ * });
+ */
+export function useFindShopQuery(baseOptions: Apollo.QueryHookOptions<FindShopQuery, FindShopQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindShopQuery, FindShopQueryVariables>(FindShopDocument, options);
+      }
+export function useFindShopLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindShopQuery, FindShopQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindShopQuery, FindShopQueryVariables>(FindShopDocument, options);
+        }
+export type FindShopQueryHookResult = ReturnType<typeof useFindShopQuery>;
+export type FindShopLazyQueryHookResult = ReturnType<typeof useFindShopLazyQuery>;
+export type FindShopQueryResult = Apollo.QueryResult<FindShopQuery, FindShopQueryVariables>;
+export const ListShopsDocument = gql`
+    query listShops {
+  shops {
+    uid
+    name
+    zip
+    address
+    tel
+    note
+  }
+}
+    `;
+
+/**
+ * __useListShopsQuery__
+ *
+ * To run a query within a React component, call `useListShopsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useListShopsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useListShopsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useListShopsQuery(baseOptions?: Apollo.QueryHookOptions<ListShopsQuery, ListShopsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListShopsQuery, ListShopsQueryVariables>(ListShopsDocument, options);
+      }
+export function useListShopsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListShopsQuery, ListShopsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListShopsQuery, ListShopsQueryVariables>(ListShopsDocument, options);
+        }
+export type ListShopsQueryHookResult = ReturnType<typeof useListShopsQuery>;
+export type ListShopsLazyQueryHookResult = ReturnType<typeof useListShopsLazyQuery>;
+export type ListShopsQueryResult = Apollo.QueryResult<ListShopsQuery, ListShopsQueryVariables>;
 export const FindTestDocument = gql`
     query findTest($uid: String!) {
   test(input: $uid) {
