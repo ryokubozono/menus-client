@@ -6,6 +6,12 @@ export const typeDefs: DocumentNode = gql`
     tests: [Test]
     shops: [Shop!]!
     shop(uid: String!): Shop!
+    tag(uid: String!): Tag!
+    tagsByShopId(shopUid: String!): [Tag!]
+    item(uid: String!): Item!
+    itemsByShopId(shopUid: String!): [Item!]
+    itemsByTagId(tagUid: String!): [Item!]
+    image(uid: String!): Image!
   }
 
   type Mutation {
@@ -19,6 +25,14 @@ export const typeDefs: DocumentNode = gql`
     deleteShop(
       uid: ID!
     ): String!
+    createTag(input: CreateTagInput!): Tag!
+    updateTag(input: UpdateTagInput!): Tag!
+    deleteTag(uid: String!): String!
+    createItem(input: CreateItemInput!): Item!
+    updateItem(input: UpdateItemInput!): Item!
+    deleteItem(uid: String!): String!
+    createImage(input: CreateImageInput!): Image!
+    deleteImage(uid: String!): String!
   }
   
   type Test {
@@ -33,6 +47,29 @@ export const typeDefs: DocumentNode = gql`
     address: String!
     tel: String!
     note: String!
+  }
+
+  type Tag {
+    uid: String!
+    shop_uid: String!
+    name: String!
+    note: String!
+    sort: Int!
+  }
+
+  type Item {
+    uid: String!
+    shop_uid: String!
+    tag_uid: String!
+    sort: Int!
+    price: Float!
+    is_visible: Boolean!
+    is_sold: Boolean!
+  }
+
+  type Image {
+    item_uid: String!
+    image_path: String!
   }
 
   input createShopInput {
@@ -50,5 +87,42 @@ export const typeDefs: DocumentNode = gql`
     address: String!
     tel: String!
     note: String!
+  }
+
+  input CreateTagInput {
+    shop_uid: String!
+    name: String!
+    note: String!
+    sort: Int!
+  }
+
+  input UpdateTagInput {
+    uid: String!
+    name: String!
+    note: String!
+    sort: Int!
+  }
+
+  input CreateItemInput {
+    shop_uid: String!
+    tag_uid: String!
+    sort: Int!
+    price: Float!
+    is_visible: Boolean!
+    is_sold: Boolean!
+  }
+
+  input UpdateItemInput {
+    uid: String!
+    tag_uid: String!
+    sort: Int!
+    price: Float!
+    is_visible: Boolean!
+    is_sold: Boolean!
+  }
+
+  input CreateImageInput {
+    item_uid: String!
+    image_path: String!
   }
 `;
