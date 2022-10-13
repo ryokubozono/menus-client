@@ -1,0 +1,3 @@
+mutation deleteTest($uid: String!) {
+  deleteTest(input: $uid)
+}

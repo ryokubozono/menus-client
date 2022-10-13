@@ -1,0 +1,10 @@
+query findShop($uid: String!) {
+  shop(input: $uid) {
+    uid
+    name
+    zip
+    address
+    tel
+    note
+  }
+}

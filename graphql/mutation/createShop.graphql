@@ -1,0 +1,21 @@
+mutation createShop(
+  $name: String!
+  $zip: String!
+  $address: String!
+  $tel: String!
+  $note: String!
+) {
+  createShop(input: {
+    name: $name
+    zip: $zip
+    address: $address
+    tel: $tel
+    note: $note
+  }) {
+    name
+    zip
+    address
+    tel
+    note
+  }
+}

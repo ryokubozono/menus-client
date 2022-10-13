@@ -1,0 +1,3 @@
+mutation deleteShop($uid: String!) {
+  deleteShop(input: $uid)
+}

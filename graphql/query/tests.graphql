@@ -1,0 +1,6 @@
+query listTests {
+	tests {
+    uid
+    text
+  }
+}

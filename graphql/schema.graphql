@@ -1,0 +1,65 @@
+# articleサービスとやり取りするArticleの型定義
+type Test {
+    uid: String!
+    text: String!
+}
+
+# TODO: currencyをenumで追加
+type Shop {
+    uid: String!
+    name: String!
+    zip: String!
+    address: String!
+    tel: String!
+    note: String!
+}
+
+# CREATEのためのinputを定義
+input CreateInput {
+    text: String!
+}
+
+input CreateShopInput {
+    name: String!
+    zip: String!
+    address: String!
+    tel: String!
+    note: String!
+}
+
+# UPDATEのためのinputを定義
+input UpdateInput {
+    uid: String!
+    text: String!
+}
+
+input UpdateShopInput {
+    uid: String!
+    name: String!
+    zip: String!
+    address: String!
+    tel: String!
+    note: String!
+}
+
+# mutationの定義(CREATE, UPDATE, DELETEを行う)
+type Mutation {
+    # test
+    createTest(input: CreateInput!): Test!
+    updateTest(input: UpdateInput!): Test!
+    deleteTest(input: String!): String!
+    # shop
+    createShop(input: CreateShopInput!): Shop!
+    updateShop(input: UpdateShopInput!): Shop!
+    deleteShop(input: String!): String!
+}
+
+# queryの定義(article → READ, articles → 全取得)
+type Query {
+    # test
+    test(input: String!): Test!
+    tests: [Test!]!
+    # shop
+    shop(input: String!): Shop!
+    shops: [Shop!]!
+}

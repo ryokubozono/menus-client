@@ -1,0 +1,10 @@
+query listShops {
+  shops {
+    uid
+    name
+    zip
+    address
+    tel
+    note
+  }
+}
