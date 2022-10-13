@@ -6,6 +6,8 @@ export const typeDefs: DocumentNode = gql`
     tests: [Test]
     shops: [Shop!]!
     shop(uid: String!): Shop!
+    tag(uid: String!): Tag!
+    tagsByShopId(shopUid: String!): [Tag!]
   }
 
   type Mutation {
@@ -19,6 +21,9 @@ export const typeDefs: DocumentNode = gql`
     deleteShop(
       uid: ID!
     ): String!
+    createTag(input: CreateTagInput!): Tag!
+    updateTag(input: UpdateTagInput!): Tag!
+    deleteTag(uid: String!): String!
   }
   
   type Test {
@@ -33,6 +38,14 @@ export const typeDefs: DocumentNode = gql`
     address: String!
     tel: String!
     note: String!
+  }
+
+  type Tag {
+    uid: String!
+    shop_uid: String!
+    name: String!
+    note: String!
+    sort: Int!
   }
 
   input createShopInput {
@@ -51,4 +64,19 @@ export const typeDefs: DocumentNode = gql`
     tel: String!
     note: String!
   }
+
+  input CreateTagInput {
+    shop_uid: String!
+    name: String!
+    note: String!
+    sort: Int!
+  }
+
+  input UpdateTagInput {
+    uid: String!
+    name: String!
+    note: String!
+    sort: Int!
+  }
+
 `;

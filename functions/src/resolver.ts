@@ -13,11 +13,22 @@ export const resolvers = {
       const shops = await admin.firestore().collection("shops").get();
       return shops.docs.map((shop) => shop.data());
     },
-    shop: async ( _:null, {uid}: { uid:string } ) => {
+    shop: async ( _:null, {uid}: { uid: string } ) => {
       const shopDoc = await admin.firestore().doc(`shops/${uid}`).get();
       const shop = shopDoc.data();
       return shop;
-    }
+    },
+    tag: async ( _:null, {uid}: { uid: string } ) => {
+      const tagDoc = await admin.firestore().doc(`tags/${uid}`).get();
+      const tag = tagDoc.data();
+      return tag;
+    },
+    tagsByShopId: async ( _:null, {shopUid}: {shopUid: string} ) => {
+      const tags = await admin.firestore().collection("tags")
+      .where("shop_uid", "==", shopUid)
+      .get();
+      return tags.docs.map((tag) => tag.data());
+    },
   },
   Mutation: {
     addTest: async (_: null, {text}: { text: string }) => {
@@ -77,6 +88,48 @@ export const resolvers = {
     deleteShop: async(_:null, {uid}: { uid: string }) => {
       await admin.firestore().collection("shops").doc(uid).delete();
       return uid
-    }
+    },
+    createTag: async (
+      _: null,
+      {input}: { input: {
+        shop_uid: string,
+        name: string,
+        note: string,
+        sort: number,
+      } },
+    ) => {
+      const uid = uuidv4()
+      await admin.firestore().collection("tags").doc(uid).set({
+        uid: uid,
+        shop_uid: input.shop_uid,
+        name: input.name,
+        note: input.note,
+        sort: input.sort,
+      });
+      const tagDoc = await admin.firestore().doc(`tags/${uid}`).get();
+      const tag = await tagDoc.data();
+      return tag;
+    },
+    updateTag: async(_: null, {input}: { input: {
+      uid: string,
+      name: string,
+      note: string,
+      sort: number,
+    } }) => {
+      const uid = input.uid
+      const tagRef = admin.firestore().collection("tags").doc(uid)
+      await tagRef.update({
+        name: input.name,
+        note: input.note,
+        sort: input.sort,
+      })
+      const tagDoc = await admin.firestore().doc(`tags/${uid}`).get();
+      const tag = tagDoc.data();
+      return tag;
+    },
+    deleteTag: async(_:null, {uid}: { uid: string }) => {
+      await admin.firestore().collection("tags").doc(uid).delete();
+      return uid
+    },
   },
 }

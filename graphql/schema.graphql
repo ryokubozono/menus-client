@@ -14,6 +14,14 @@ type Shop {
     note: String!
 }
 
+type Tag {
+    uid: String!
+    shop_uid: String!
+    name: String!
+    note: String!
+    sort: Int!
+}
+
 # CREATEのためのinputを定義
 input CreateInput {
     text: String!
@@ -25,6 +33,13 @@ input CreateShopInput {
     address: String!
     tel: String!
     note: String!
+}
+
+input CreateTagInput {
+    shop_uid: String!
+    name: String!
+    note: String!
+    sort: Int!
 }
 
 # UPDATEのためのinputを定義
@@ -42,6 +57,13 @@ input UpdateShopInput {
     note: String!
 }
 
+input UpdateTagInput {
+    uid: String!
+    name: String!
+    note: String!
+    sort: Int!
+}
+
 # mutationの定義(CREATE, UPDATE, DELETEを行う)
 type Mutation {
     # test
@@ -51,6 +73,10 @@ type Mutation {
     # shop
     createShop(input: CreateShopInput!): Shop!
     updateShop(input: UpdateShopInput!): Shop!
+    deleteShop(input: String!): String!
+    # tag
+    createTag(input: CreateTagInput!): Tag!
+    updateTag(input: UpdateTagInput!): Tag!
     deleteShop(input: String!): String!
 }
 
@@ -62,4 +88,7 @@ type Query {
     # shop
     shop(input: String!): Shop!
     shops: [Shop!]!
+    # tag
+    tag(input: String!): Tag!
+    tagsByShopId(input: String!): Tag!
 }
