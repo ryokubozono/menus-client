@@ -1,0 +1,13 @@
+query findItem($uid: String!) {
+  item(uid: $uid) {
+    uid
+    shop_uid
+    tag_uid
+    name
+    sort
+    price
+    is_sold
+    is_visible
+    image_path
+  }
+}

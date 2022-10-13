@@ -1,0 +1,9 @@
+query findTag($uid: String!) {
+  tag (uid: $uid){
+    uid
+    shop_uid
+    name
+    note
+    sort
+  }
+}

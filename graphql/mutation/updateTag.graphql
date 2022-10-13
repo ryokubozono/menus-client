@@ -1,0 +1,21 @@
+mutation updateTag(
+  $uid: String!
+  $name: String!
+  $note: String!
+  $sort: Int!
+){
+  updateTag(
+    input: {
+      uid: $uid
+      name: $name
+      note: $note
+      sort: $sort
+    }
+  ) {
+    uid
+    shop_uid
+    name
+    note
+    sort
+  }
+}

@@ -4,6 +4,7 @@ import {DocumentNode} from "graphql";
 export const typeDefs: DocumentNode = gql`
   type Query {
     tests: [Test]
+    test(uid: String!): Test!
     shops: [Shop!]!
     shop(uid: String!): Shop!
     tag(uid: String!): Tag!
@@ -15,16 +16,12 @@ export const typeDefs: DocumentNode = gql`
   }
 
   type Mutation {
-    addTest(text: String!): Test!
-    createShop(
-      input: createShopInput!
-    ): Shop!
-    updateShop(
-      input: updateShopInput!
-    ): Shop!
-    deleteShop(
-      uid: ID!
-    ): String!
+    createTest(input: CreateTestInput!): Test!
+    updateTest(input: UpdateTestInput!): Test!
+    deleteTest(uid: String!): String!
+    createShop(input: createShopInput!): Shop!
+    updateShop(input: updateShopInput!): Shop!
+    deleteShop(uid: String!): String!
     createTag(input: CreateTagInput!): Tag!
     updateTag(input: UpdateTagInput!): Tag!
     deleteTag(uid: String!): String!
@@ -36,12 +33,12 @@ export const typeDefs: DocumentNode = gql`
   }
   
   type Test {
-    uid: ID!
+    uid: String!
     text: String!
   }
 
   type Shop {
-    uid: ID!
+    uid: String!
     name: String!
     zip: String!
     address: String!
@@ -62,14 +59,25 @@ export const typeDefs: DocumentNode = gql`
     shop_uid: String!
     tag_uid: String!
     sort: Int!
+    name: String!
     price: Float!
     is_visible: Boolean!
     is_sold: Boolean!
+    image_path: String!
   }
 
   type Image {
     item_uid: String!
     image_path: String!
+  }
+
+  input CreateTestInput {
+    text: String!
+  }
+
+  input UpdateTestInput {
+    uid: String!
+    text: String!
   }
 
   input createShopInput {
@@ -107,18 +115,22 @@ export const typeDefs: DocumentNode = gql`
     shop_uid: String!
     tag_uid: String!
     sort: Int!
+    name: String!
     price: Float!
     is_visible: Boolean!
     is_sold: Boolean!
+    image_path: String!
   }
 
   input UpdateItemInput {
     uid: String!
     tag_uid: String!
     sort: Int!
+    name: String!
     price: Float!
     is_visible: Boolean!
     is_sold: Boolean!
+    image_path: String!
   }
 
   input CreateImageInput {

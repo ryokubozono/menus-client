@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { ApolloProvider, gql, useQuery, ApolloClient } from '@apollo/client';
+import { ApolloProvider, ApolloClient } from '@apollo/client';
 import { HttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import {parseCookies} from 'nookies'

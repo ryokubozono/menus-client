@@ -26,10 +26,12 @@ type Item {
     uid: String!
     shop_uid: String!
     tag_uid: String!
+    name: String!
     sort: Int!
     price: Float!
     is_visible: Boolean!
     is_sold: Boolean!
+    image_path: String!
 }
 
 type Image {
@@ -38,7 +40,7 @@ type Image {
 }
 
 # CREATEのためのinputを定義
-input CreateInput {
+input CreateTestInput {
     text: String!
 }
 
@@ -60,10 +62,12 @@ input CreateTagInput {
 input CreateItemInput {
     shop_uid: String!
     tag_uid: String!
+    name: String!
     sort: Int!
     price: Float!
     is_visible: Boolean!
     is_sold: Boolean!
+    image_path: String!
 }
 
 input CreateImageInput {
@@ -72,7 +76,7 @@ input CreateImageInput {
 }
 
 # UPDATEのためのinputを定義
-input UpdateInput {
+input UpdateTestInput {
     uid: String!
     text: String!
 }
@@ -96,50 +100,52 @@ input UpdateTagInput {
 input UpdateItemInput {
     uid: String!
     tag_uid: String!
+    name: String!
     sort: Int!
     price: Float!
     is_visible: Boolean!
     is_sold: Boolean!
+    image_path: String!
 }
 
 # mutationの定義(CREATE, UPDATE, DELETEを行う)
 type Mutation {
     # test
-    createTest(input: CreateInput!): Test!
-    updateTest(input: UpdateInput!): Test!
-    deleteTest(input: String!): String!
+    createTest(input: CreateTestInput!): Test!
+    updateTest(input: UpdateTestInput!): Test!
+    deleteTest(uid: String!): String!
     # shop
     createShop(input: CreateShopInput!): Shop!
     updateShop(input: UpdateShopInput!): Shop!
-    deleteShop(input: String!): String!
+    deleteShop(uid: String!): String!
     # tag
     createTag(input: CreateTagInput!): Tag!
     updateTag(input: UpdateTagInput!): Tag!
-    deleteShop(input: String!): String!
+    deleteTag(uid: String!): String!
     # item
     createItem(input: CreateItemInput!): Item!
     updateItem(input: UpdateItemInput!): Item!
-    deleteItem(input: String!): String!
+    deleteItem(uid: String!): String!
     # image
     createImage(input: CreateImageInput!): Image!
-    deleteImage(input: String!): String!
+    deleteImage(uid: String!): String!
 }
 
 # queryの定義(article → READ, articles → 全取得)
 type Query {
     # test
-    test(input: String!): Test!
+    test(uid: String!): Test!
     tests: [Test!]!
     # shop
-    shop(input: String!): Shop!
+    shop(uid: String!): Shop!
     shops: [Shop!]!
     # tag
-    tag(input: String!): Tag!
-    tagsByShopId(input: String!): [Tag!]
+    tag(uid: String!): Tag!
+    tagsByShopId(shopUid: String!): [Tag!]!
     # item
-    item(input: String!): Item!
-    itemsByShopId(input: String!): [Item!]
-    itemsByTagId(input: String!): [Item!]
+    item(uid: String!): Item!
+    itemsByShopId(shopUid: String!): [Item!]!
+    itemsByTagId(tagUid: String!): [Item!]!
     # image
-    image(input: String!): Image!
+    image(uid: String!): Image!
 }

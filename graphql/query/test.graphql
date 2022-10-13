@@ -1,5 +1,5 @@
 query findTest($uid: String!) {
-  test(input: $uid)
+  test(uid: $uid)
   {
     uid
     text

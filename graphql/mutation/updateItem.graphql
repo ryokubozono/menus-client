@@ -1,0 +1,33 @@
+mutation updateItem(
+  $uid: String!
+  $tag_uid: String!
+  $sort: Int!
+  $name: String!
+  $price: Float!
+  $is_sold: Boolean!
+  $is_visible: Boolean!
+  $image_path: String!
+){
+  updateItem(
+    input: {
+      uid: $uid
+      tag_uid: $tag_uid
+      sort: $sort
+      name: $name
+      price: $price
+      is_sold: $is_sold
+      is_visible: $is_visible
+      image_path: $image_path
+    }
+  ) {
+    uid
+    shop_uid
+    tag_uid
+    sort
+    name
+    price
+    is_sold
+    is_visible
+    image_path
+  }
+}

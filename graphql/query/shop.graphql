@@ -1,5 +1,5 @@
 query findShop($uid: String!) {
-  shop(input: $uid) {
+  shop(uid: $uid) {
     uid
     name
     zip
