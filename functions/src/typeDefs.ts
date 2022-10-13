@@ -11,6 +11,7 @@ export const typeDefs: DocumentNode = gql`
     item(uid: String!): Item!
     itemsByShopId(shopUid: String!): [Item!]
     itemsByTagId(tagUid: String!): [Item!]
+    image(uid: String!): Image!
   }
 
   type Mutation {
@@ -30,6 +31,8 @@ export const typeDefs: DocumentNode = gql`
     createItem(input: CreateItemInput!): Item!
     updateItem(input: UpdateItemInput!): Item!
     deleteItem(uid: String!): String!
+    createImage(input: CreateImageInput!): Image!
+    deleteImage(uid: String!): String!
   }
   
   type Test {
@@ -62,6 +65,11 @@ export const typeDefs: DocumentNode = gql`
     price: Float!
     is_visible: Boolean!
     is_sold: Boolean!
+  }
+
+  type Image {
+    item_uid: String!
+    image_path: String!
   }
 
   input createShopInput {
@@ -111,5 +119,10 @@ export const typeDefs: DocumentNode = gql`
     price: Float!
     is_visible: Boolean!
     is_sold: Boolean!
+  }
+
+  input CreateImageInput {
+    item_uid: String!
+    image_path: String!
   }
 `;

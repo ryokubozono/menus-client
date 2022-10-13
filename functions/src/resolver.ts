@@ -46,6 +46,11 @@ export const resolvers = {
       .get();
       return items.docs.map((item) => item.data());
     },
+    image: async ( _:null, {uid}: { uid: string } ) => {
+      const imageDoc = await admin.firestore().doc(`images/${uid}`).get();
+      const image = imageDoc.data();
+      return image;
+    },
   },
   Mutation: {
     addTest: async (_: null, {text}: { text: string }) => {
@@ -196,6 +201,26 @@ export const resolvers = {
     },
     deleteItem: async(_:null, {uid}: { uid: string }) => {
       await admin.firestore().collection("items").doc(uid).delete();
+      return uid
+    },
+    createImage: async (
+      _: null,
+      {input}: { input: {
+        item_uid: string,
+        image_path: string,
+      } },
+    ) => {
+      const uid = input.item_uid
+      await admin.firestore().collection("images").doc(uid).set({
+        item_uid: uid,
+        image_path: input.image_path,
+      });
+      const imageDoc = await admin.firestore().doc(`images/${uid}`).get();
+      const image = await imageDoc.data();
+      return image;
+    },
+    deleteImage: async(_:null, {uid}: { uid: string }) => {
+      await admin.firestore().collection("images").doc(uid).delete();
       return uid
     },
   },

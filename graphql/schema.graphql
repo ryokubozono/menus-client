@@ -32,6 +32,11 @@ type Item {
     is_sold: Boolean!
 }
 
+type Image {
+    item_uid: String!
+    image_path: String!
+}
+
 # CREATEのためのinputを定義
 input CreateInput {
     text: String!
@@ -59,6 +64,11 @@ input CreateItemInput {
     price: Float!
     is_visible: Boolean!
     is_sold: Boolean!
+}
+
+input CreateImageInput {
+    item_uid: String!
+    image_path: String!
 }
 
 # UPDATEのためのinputを定義
@@ -110,6 +120,9 @@ type Mutation {
     createItem(input: CreateItemInput!): Item!
     updateItem(input: UpdateItemInput!): Item!
     deleteItem(input: String!): String!
+    # image
+    createImage(input: CreateImageInput!): Image!
+    deleteImage(input: String!): String!
 }
 
 # queryの定義(article → READ, articles → 全取得)
@@ -127,4 +140,6 @@ type Query {
     item(input: String!): Item!
     itemsByShopId(input: String!): [Item!]
     itemsByTagId(input: String!): [Item!]
+    # image
+    image(input: String!): Image!
 }
