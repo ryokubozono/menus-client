@@ -22,6 +22,16 @@ type Tag {
     sort: Int!
 }
 
+type Item {
+    uid: String!
+    shop_uid: String!
+    tag_uid: String!
+    sort: Int!
+    price: Float!
+    is_visible: Boolean!
+    is_sold: Boolean!
+}
+
 # CREATEのためのinputを定義
 input CreateInput {
     text: String!
@@ -40,6 +50,15 @@ input CreateTagInput {
     name: String!
     note: String!
     sort: Int!
+}
+
+input CreateItemInput {
+    shop_uid: String!
+    tag_uid: String!
+    sort: Int!
+    price: Float!
+    is_visible: Boolean!
+    is_sold: Boolean!
 }
 
 # UPDATEのためのinputを定義
@@ -64,6 +83,15 @@ input UpdateTagInput {
     sort: Int!
 }
 
+input UpdateItemInput {
+    uid: String!
+    tag_uid: String!
+    sort: Int!
+    price: Float!
+    is_visible: Boolean!
+    is_sold: Boolean!
+}
+
 # mutationの定義(CREATE, UPDATE, DELETEを行う)
 type Mutation {
     # test
@@ -78,6 +106,10 @@ type Mutation {
     createTag(input: CreateTagInput!): Tag!
     updateTag(input: UpdateTagInput!): Tag!
     deleteShop(input: String!): String!
+    # item
+    createItem(input: CreateItemInput!): Item!
+    updateItem(input: UpdateItemInput!): Item!
+    deleteItem(input: String!): String!
 }
 
 # queryの定義(article → READ, articles → 全取得)
@@ -90,5 +122,9 @@ type Query {
     shops: [Shop!]!
     # tag
     tag(input: String!): Tag!
-    tagsByShopId(input: String!): Tag!
+    tagsByShopId(input: String!): [Tag!]
+    # item
+    item(input: String!): Item!
+    itemsByShopId(input: String!): [Item!]
+    itemsByTagId(input: String!): [Item!]
 }
