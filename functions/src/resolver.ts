@@ -9,6 +9,11 @@ export const resolvers = {
       const tests = await admin.firestore().collection("tests").get();
       return tests.docs.map((test) => test.data());
     },
+    test: async ( _:null, {uid}: { uid: string } ) => {
+      const testDoc = await admin.firestore().doc(`tests/${uid}`).get();
+      const test = testDoc.data();
+      return test;
+    },
     async shops() {
       const shops = await admin.firestore().collection("shops").get();
       return shops.docs.map((shop) => shop.data());
@@ -53,15 +58,32 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addTest: async (_: null, {text}: { text: string }) => {
+    createTest: async (_: null, {input}: { input:{text: string }}) => {
       const uid = uuidv4()
       await admin.firestore().collection("tests").doc(uid).set({
         uid: uid,
-        text: text,
+        text: input.text,
       });
       const testDoc = await admin.firestore().doc(`tests/${uid}`).get();
       const test = await testDoc.data();
       return test;
+    },
+    updateTest: async(_: null, {input}: { input: {
+      uid: string,
+      text: string,
+    } }) => {
+      const uid = input.uid
+      const testRef = admin.firestore().collection("tests").doc(uid)
+      await testRef.update({
+        text: input.text,
+      })
+      const testDoc = await admin.firestore().doc(`tests/${uid}`).get();
+      const test = testDoc.data();
+      return test;
+    },
+    deleteTest: async(_:null, {uid}: { uid: string }) => {
+      await admin.firestore().collection("tests").doc(uid).delete();
+      return uid
     },
     createShop: async (
       _: null,
@@ -159,9 +181,11 @@ export const resolvers = {
         shop_uid: string,
         tag_uid: string,
         sort: number,
+        name: string,
         price: number,
         is_visible: boolean,
         is_sold: boolean,
+        image_path: string,
       } },
     ) => {
       const uid = uuidv4()
@@ -170,9 +194,11 @@ export const resolvers = {
         shop_uid: input.shop_uid,
         tag_uid: input.tag_uid,
         sort: input.sort,
+        name: input.name,
         price: input.price,
         is_visible: input.is_visible,
         is_sold: input.is_sold,
+        image_path: input.image_path,
       });
       const itemDoc = await admin.firestore().doc(`items/${uid}`).get();
       const item = await itemDoc.data();
@@ -182,18 +208,22 @@ export const resolvers = {
       uid: string,
       tag_uid: string,
       sort: number,
+      name: string,
       price: number,
       is_visible: boolean,
       is_sold: boolean,
+      image_path: string,
     } }) => {
       const uid = input.uid
       const itemRef = admin.firestore().collection("items").doc(uid)
       await itemRef.update({
         tag_uid: input.tag_uid,
         sort: input.sort,
+        name: input.name,
         price: input.price,
         is_visible: input.is_visible,
         is_sold: input.is_sold,
+        image_path: input.image_path,
       })
       const itemDoc = await admin.firestore().doc(`items/${uid}`).get();
       const item = itemDoc.data();

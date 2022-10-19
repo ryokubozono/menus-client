@@ -1,0 +1,21 @@
+mutation createTag(
+  $shop_uid: String!
+  $name: String!
+  $note: String!
+  $sort: Int!
+){
+  createTag(
+    input: {
+      shop_uid: $shop_uid
+      name: $name
+      note: $note
+      sort: $sort
+    }
+  ) {
+    uid
+    shop_uid
+    name
+    note
+    sort
+  }
+}

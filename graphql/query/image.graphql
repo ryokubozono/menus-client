@@ -1,0 +1,6 @@
+query findImage($uid: String!) {
+  image (uid: $uid){
+    item_uid
+    image_path
+  }
+}

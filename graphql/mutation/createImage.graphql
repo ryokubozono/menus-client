@@ -1,0 +1,14 @@
+mutation createImage(
+  $item_uid: String!
+  $image_path: String!
+){
+  createImage(
+    input: {
+      item_uid: $item_uid
+      image_path: $image_path
+    }
+  ) {
+    item_uid
+    image_path
+  }
+}

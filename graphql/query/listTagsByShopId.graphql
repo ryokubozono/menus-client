@@ -1,0 +1,9 @@
+query listTagsByShopId($shopUid: String!) {
+  tagsByShopId (shopUid: $shopUid){
+    uid
+    shop_uid
+    name
+    note
+    sort
+  }
+}
