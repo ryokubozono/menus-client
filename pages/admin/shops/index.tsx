@@ -43,21 +43,21 @@ const Shops = () => {
         <p>{item.uid}: {item.name}: {item.zip}: {item.tel}: {item.note}: {item.address}</p>
         <button
           onClick={() => {
-            router.push("/admin/shops/" + item.uid);
+            router.push("/admin/shops/show/?uid=" + item.uid);
           }}
         >
           show
         </button>
         <button
           onClick={() => {
-            router.push("/admin/tags/" + item.uid);
+            router.push("/admin/tags/?shopUid=" + item.uid);
           }}
         >
           tags
         </button>
         <button
           onClick={() => {
-            router.push("/admin/items/shopUid/" + item.uid);
+            router.push("/admin/items/shopUid/?shopUid=" + item.uid);
           }}
         >
           items

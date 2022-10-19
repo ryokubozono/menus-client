@@ -32,7 +32,7 @@ function Show() {
     <div>
       <button
         onClick={() => {
-          router.push(`/admin/tags/${tag?.shop_uid}`);
+          router.push(`/admin/tags/?shopUid=${tag?.shop_uid}`);
         }}
       >
         tag page

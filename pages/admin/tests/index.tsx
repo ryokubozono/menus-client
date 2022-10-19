@@ -29,7 +29,7 @@ const Tests = () => {
         <p>{item.uid}: {item.text}</p>
         <button
           onClick={() => {
-            router.push("/admin/tests/" + item.uid);
+            router.push("/admin/tests/?uid=" + item.uid);
           }}
         >
           show
