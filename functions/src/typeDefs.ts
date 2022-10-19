@@ -81,6 +81,7 @@ export const typeDefs: DocumentNode = gql`
   }
 
   input createShopInput {
+    uid: String!
     name: String!
     zip: String!
     address: String!

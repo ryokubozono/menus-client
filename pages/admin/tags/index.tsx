@@ -45,14 +45,14 @@ const Tags = () => {
         <p>{item.uid}: {item.name}: {item.note}: {item.sort}</p>
         <button
           onClick={() => {
-            router.push("/admin/tags/show/" + item.uid);
+            router.push("/admin/tags/show/?uid=" + item.uid);
           }}
         >
           show
         </button>
         <button
           onClick={() => {
-            router.push("/admin/items/tagUid/" + item.uid);
+            router.push("/admin/items/tagUid/?tagUid=" + item.uid);
           }}
         >
           items

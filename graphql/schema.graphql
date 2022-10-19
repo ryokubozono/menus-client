@@ -45,6 +45,7 @@ input CreateTestInput {
 }
 
 input CreateShopInput {
+    uid: String!
     name: String!
     zip: String!
     address: String!

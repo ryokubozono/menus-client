@@ -36,6 +36,7 @@ export type CreateShopInput = {
   name: Scalars['String'];
   note: Scalars['String'];
   tel: Scalars['String'];
+  uid: Scalars['String'];
   zip: Scalars['String'];
 };
 
@@ -291,6 +292,7 @@ export type CreateItemMutationVariables = Exact<{
 export type CreateItemMutation = { __typename?: 'Mutation', createItem: { __typename?: 'Item', uid: string, shop_uid: string, tag_uid: string, sort: number, name: string, price: number, is_sold: boolean, is_visible: boolean, image_path: string } };
 
 export type CreateShopMutationVariables = Exact<{
+  uid: Scalars['String'];
   name: Scalars['String'];
   zip: Scalars['String'];
   address: Scalars['String'];
@@ -299,7 +301,7 @@ export type CreateShopMutationVariables = Exact<{
 }>;
 
 
-export type CreateShopMutation = { __typename?: 'Mutation', createShop: { __typename?: 'Shop', name: string, zip: string, address: string, tel: string, note: string } };
+export type CreateShopMutation = { __typename?: 'Mutation', createShop: { __typename?: 'Shop', uid: string, name: string, zip: string, address: string, tel: string, note: string } };
 
 export type CreateTagMutationVariables = Exact<{
   shop_uid: Scalars['String'];
@@ -550,10 +552,11 @@ export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutati
 export type CreateItemMutationResult = Apollo.MutationResult<CreateItemMutation>;
 export type CreateItemMutationOptions = Apollo.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
 export const CreateShopDocument = gql`
-    mutation createShop($name: String!, $zip: String!, $address: String!, $tel: String!, $note: String!) {
+    mutation createShop($uid: String!, $name: String!, $zip: String!, $address: String!, $tel: String!, $note: String!) {
   createShop(
-    input: {name: $name, zip: $zip, address: $address, tel: $tel, note: $note}
+    input: {uid: $uid, name: $name, zip: $zip, address: $address, tel: $tel, note: $note}
   ) {
+    uid
     name
     zip
     address
@@ -577,6 +580,7 @@ export type CreateShopMutationFn = Apollo.MutationFunction<CreateShopMutation, C
  * @example
  * const [createShopMutation, { data, loading, error }] = useCreateShopMutation({
  *   variables: {
+ *      uid: // value for 'uid'
  *      name: // value for 'name'
  *      zip: // value for 'zip'
  *      address: // value for 'address'

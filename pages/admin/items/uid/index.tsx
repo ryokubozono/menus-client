@@ -97,7 +97,7 @@ function Show() {
     <div>
       <button
         onClick={() => {
-          router.push(`/admin/items/shopUid/${shopUid}`);
+          router.push(`/admin/items/shopUid/?shopUid=${shopUid}`);
         }}
       >
         items page

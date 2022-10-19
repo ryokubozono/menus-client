@@ -1,30 +1,31 @@
-import {useListItemsByShopIdQuery, useCreateItemMutation, useDeleteItemMutation, useListTagsByShopIdQuery } from '../../../../graphql/dist/client';
+import {useListItemsByTagIdQuery, useCreateItemMutation, useDeleteItemMutation, useFindTagQuery } from '../../../../graphql/dist/client';
 import { useState } from "react";
 import { useRouter } from 'next/router'
 
-function Tags(shopUid: string) {
-  const { data: { tagsByShopId = [] } = {} } = useListTagsByShopIdQuery({ variables: { shopUid: shopUid } });
-  const tags = tagsByShopId.map((item) => item)
-  return tags
+function GetShopIdOfTag(uid: string) {
+  const { data: { tag } = {} } = useFindTagQuery({ variables: { uid: uid } });
+  if (tag != null) {
+    return tag.shop_uid
+  } else {
+    return ""
+  }
 }
 
 const Items = () => {
   const router = useRouter()
-  const shopUid = router.query.shopUid as string;
-  const { data: { itemsByShopId = [] } = {} } = useListItemsByShopIdQuery({ variables: { shopUid: shopUid } });
-  const [tagUid, setTagUid] = useState("");
+  const tagUid = router.query.tagUid as string;
+  const { data: { itemsByTagId = [] } = {} } = useListItemsByTagIdQuery({ variables: { tagUid: tagUid } });
   const [name, setName] = useState("");
   const [sort, setSort] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isSold, setIsSold] = useState(false);
+  const shopUid = GetShopIdOfTag(tagUid)
 
-
-  const [createItem] = useCreateItemMutation({refetchQueries: ["listItemsByShopId"]});
-  const [deleteItem] = useDeleteItemMutation({refetchQueries: ["listItemsByShopId"]});
+  const [createItem] = useCreateItemMutation({refetchQueries: ["listItemsByTagId"]});
+  const [deleteItem] = useDeleteItemMutation({refetchQueries: ["listItemsByTagId"]});
 
   const createHandler = async(
-    tagUid: string,
     name: string,
     sort: number,
     price: number,
@@ -34,7 +35,6 @@ const Items = () => {
     await createItem({ variables: { shop_uid: shopUid, tag_uid: tagUid, name: name, sort: sort, price: price, is_visible: isVisible, is_sold: isSold, image_path: "" }}).catch((e) => {
       console.log(e)
     })
-    setTagUid("");
     setName("");
     setSort(0);
     setPrice(0);
@@ -46,8 +46,6 @@ const Items = () => {
     deleteItem({variables: {uid: uid}});
   };
 
-  const tags = Tags(shopUid)
-
   return (
     <div>
       <button
@@ -58,12 +56,12 @@ const Items = () => {
         shops page
       </button>
       <h2>List</h2>
-      {itemsByShopId.map((item) => (
+      {itemsByTagId.map((item) => (
         <div key={item.uid}>
         <p>{item.uid}:{item.shop_uid}:{item.tag_uid}:{item.name}:{item.sort}:{item.price}:{item.is_sold + ''}:{item.is_visible + ''}</p>
         <button
           onClick={() => {
-            router.push("/admin/items/uid/" + item.uid);
+            router.push("/admin/items/uid/?uid=" + item.uid);
           }}
         >
           show
@@ -75,18 +73,9 @@ const Items = () => {
         >
           delete
         </button>
-        {item.image_path && 
-          <img width='100px' src={item.image_path} alt="uploaded" />
-        }
         </div>
       ))}
       <h2>Create</h2>
-      <label>tagUid</label>
-      <select value={tagUid} onChange={(e) => setTagUid(e.target.value)}>
-        {tags.map((item) => (
-          <option key={item.uid} value={item.uid}>{item.name}</option>
-        ))}
-      </select>
       <label>name</label>
       <input value={name} onChange={(e) => setName(e.target.value)} />
       <label>sort</label>
@@ -99,7 +88,7 @@ const Items = () => {
       <input type="checkbox" checked={isVisible} onChange={(e) => setIsVisible(Boolean(e.target.value))} />
       <button
         onClick={() => {
-          createHandler(tagUid, name, sort, price, isVisible, isSold)
+          createHandler(name, sort, price, isVisible, isSold)
         }}
       >
         submit
