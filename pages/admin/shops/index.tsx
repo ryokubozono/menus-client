@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 
 const Shops = () => {
   const { data: { shops = [] } = {} } = useListShopsQuery();
+  const [uid, setUid] = useState("");
   const [name, setName] = useState("");
   const [zip, setZip] = useState("");
   const [address, setAddress] = useState("");
@@ -14,13 +15,14 @@ const Shops = () => {
   const [deleteShop] = useDeleteShopMutation({refetchQueries: ["listShops"]});
   const router = useRouter()
   const createHandler = async(
+    uid: string,
     name: string,
     zip: string,
     address: string,
     tel: string,
     note: string,
   ) => {
-    await createShop({ variables: { name: name, zip: zip, address: address, tel: tel, note: note }}).catch((e) => {
+    await createShop({ variables: { uid: uid, name: name, zip: zip, address: address, tel: tel, note: note }}).catch((e) => {
       console.log(e)
     })
     setName("");
@@ -72,6 +74,8 @@ const Shops = () => {
         </div>
       ))}
       <h2>Create</h2>
+      <label>uid</label>
+      <input value={uid} onChange={(e) => setUid(e.target.value)} />
       <label>name</label>
       <input value={name} onChange={(e) => setName(e.target.value)} />
       <label>zip</label>
@@ -84,7 +88,7 @@ const Shops = () => {
       <input value={note} onChange={(e) => setNote(e.target.value)} />
       <button
         onClick={() => {
-          createHandler(name, zip, address, tel, note)
+          createHandler(uid, name, zip, address, tel, note)
         }}
       >
         submit

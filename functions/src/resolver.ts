@@ -88,6 +88,7 @@ export const resolvers = {
     createShop: async (
       _: null,
       {input}: { input: {
+        uid: string,
         name: string,
         zip: string,
         address: string,
@@ -95,16 +96,15 @@ export const resolvers = {
         note: string
       } },
     ) => {
-      const uid = uuidv4()
-      await admin.firestore().collection("shops").doc(uid).set({
-        uid: uid,
+      await admin.firestore().collection("shops").doc(input.uid).set({
+        uid: input.uid,
         name: input.name,
         zip: input.zip,
         address: input.address,
         tel: input.tel,
         note: input.note,
       });
-      const shopDoc = await admin.firestore().doc(`shops/${uid}`).get();
+      const shopDoc = await admin.firestore().doc(`shops/${input.uid}`).get();
       const shop = await shopDoc.data();
       return shop;
     },

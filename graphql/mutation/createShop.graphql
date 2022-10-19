@@ -1,4 +1,5 @@
 mutation createShop(
+  $uid: String!
   $name: String!
   $zip: String!
   $address: String!
@@ -6,12 +7,14 @@ mutation createShop(
   $note: String!
 ) {
   createShop(input: {
+    uid: $uid
     name: $name
     zip: $zip
     address: $address
     tel: $tel
     note: $note
   }) {
+    uid
     name
     zip
     address
